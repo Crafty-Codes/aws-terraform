@@ -1,3 +1,4 @@
+#cloud-config
 groups:
   - ubuntu: [root,sys]
 
@@ -10,7 +11,7 @@ users:
     groups: users, admin, docker
     lock_passwd: false
     ssh_authorized_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDgPpYFIW1V80oG06Iof6nE2XobhUePWQy3novB+J91I3IGe5Hmyu4MS3NraOKLIq1KO5XSEfKJi0ov9l3hgxQ+qmSrGT8sZMYNf8+0+LG+qrGBjuyAv8eY5Pd/mY20FhCKkMOLyYTZbyd9YnSMAl9tEExa82PjK7K2QNImrbIAuMYpFikLiSQbrQhsUH3IoUA1RWg3VcrtBAhR3kir1LK8MSTH3+NKgYGueymOsnhcPJkFLc/x9QSAXBAIol1B31KpwVbOGXEy3GYzKdMNFk6Sibh2JQn173kcwpCOxc55Glfz+vNhHXQXw/4jUNPoG49Lei78y353VDlxQSZXb53cI4r16uYgHkwPpDAgI4kvvcluaeFbiTfZ3erfhn/UsDudcYNuKXhn6WMLiIDHZx0ALlJXWkU5U2jl9iKT55E5NFv0t6C284SLnSr4hDDcL1kA3tNtMERPCfo+nzOyVE3Z0GMEL47TvJEUUxUHWWYRQTX8H989UilaS8Gm+tExPuc= crafty@crafty-end
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCsjFGM8n1GSr6XmOcNd4y/ZoutH8sfVHg/6VEhJcOp/D7kxNco43YdLbIRzwvsDGYr/ZVxPg1ESCnVHtJlLTip9fntiMzZPlfJVV09uha9di3vXTLg2XSnQRfNeAg1lVGSkLHPD5d7zJb6kOCIJEXwc+MqdxljeFFTwrUCEJsKMD+THAZhZH6STmvA8QJwK9egiYDzvSuc51HhYM1OgS9eSiK5ta5Qu2rhr3XO0EbTuik63HdqYVsKlZjNeLMLT+/sL2UKFOYCOdSoLpsbned2LS9HmhKqXUJw6aLWDZgOgQjddWgoWVF2XDBrhKsHBHCfyVGsvMhGZ/2O1pU8Mn74OxTBZqI59CXh5stqxMb5PesXdmrM6XkFq5TS1snVSn9CCjQ9n3DEgiFZGZYDhBmzqijaVSFLa6Hk8NiqzciS8gfccnDgM7QBq/Jbh0PWlMVu/rwrVedYbJrFtJzJoLEUPwwYRMk7g00SjzDlE46TlU8nxQ/e7GIRutFqCPGzlj0= crafty@crafty-end
 packages:
   - docker
   - docker-compose
@@ -19,3 +20,14 @@ packages:
 runcmd:
   - sudo su terraform
   - cd /home/terraform
+  - git clone https://github.com/elastic/elasticsearch.git elasticsearch
+  - cd elasticsearch/docs/reference/setup/install/docker
+  - echo "ELASTIC_PASSWORD=StrongPasswd 
+KIBANA_PASSWORD=StrongPasswd
+STACK_VERSION=8.6.0
+CLUSTER_NAME=docker-cluster
+LICENSE=basic
+ES_PORT=9200
+KIBANA_PORT=80
+MEM_LIMIT=1073741824" > .env
+  - docker-compose up -d
