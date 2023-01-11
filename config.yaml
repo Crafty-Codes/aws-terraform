@@ -20,14 +20,5 @@ packages:
 runcmd:
   - sudo su terraform
   - cd /home/terraform
-  - git clone https://github.com/elastic/elasticsearch.git elasticsearch
-  - cd elasticsearch/docs/reference/setup/install/docker
-  - echo "ELASTIC_PASSWORD=StrongPasswd 
-KIBANA_PASSWORD=StrongPasswd
-STACK_VERSION=8.6.0
-CLUSTER_NAME=docker-cluster
-LICENSE=basic
-ES_PORT=9200
-KIBANA_PORT=80
-MEM_LIMIT=1073741824" > .env
+  - curl https://raw.githubusercontent.com/crafycode/elastic/main/docker-compose.yml > docker-compose.yml
   - docker-compose up -d
