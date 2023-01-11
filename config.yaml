@@ -1,0 +1,21 @@
+groups:
+  - ubuntu: [root,sys]
+
+users:
+  - default
+  - name: terraform
+    gecos: terraform
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin, docker
+    lock_passwd: false
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDgPpYFIW1V80oG06Iof6nE2XobhUePWQy3novB+J91I3IGe5Hmyu4MS3NraOKLIq1KO5XSEfKJi0ov9l3hgxQ+qmSrGT8sZMYNf8+0+LG+qrGBjuyAv8eY5Pd/mY20FhCKkMOLyYTZbyd9YnSMAl9tEExa82PjK7K2QNImrbIAuMYpFikLiSQbrQhsUH3IoUA1RWg3VcrtBAhR3kir1LK8MSTH3+NKgYGueymOsnhcPJkFLc/x9QSAXBAIol1B31KpwVbOGXEy3GYzKdMNFk6Sibh2JQn173kcwpCOxc55Glfz+vNhHXQXw/4jUNPoG49Lei78y353VDlxQSZXb53cI4r16uYgHkwPpDAgI4kvvcluaeFbiTfZ3erfhn/UsDudcYNuKXhn6WMLiIDHZx0ALlJXWkU5U2jl9iKT55E5NFv0t6C284SLnSr4hDDcL1kA3tNtMERPCfo+nzOyVE3Z0GMEL47TvJEUUxUHWWYRQTX8H989UilaS8Gm+tExPuc= crafty@crafty-end
+packages:
+  - docker
+  - docker-compose
+  - git
+
+runcmd:
+  - sudo su terraform
+  - cd /home/terraform
