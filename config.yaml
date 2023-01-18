@@ -11,7 +11,7 @@ users:
     groups: users, admin, docker
     lock_passwd: false
     ssh_authorized_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDXCIZd6AG2mt5ROzKLlg3/D0O0MouU6BWhNv0jHmOb9v/unACu0RWPkdeFGIEPUE+v3XQrOgNKdg6v3IDcGh20w3i56VGl2NBWKY5JCCGTpYx1P+mpKPEp+QzclDjSr8YE+8ZemaddOzCEFUYUGpCwDy6kImHH92By0ZV+ceud2Uz7+nr0cTEEmlt4bPAiy3HStF+7MlI19ZaJ4DuzAKzO9hNF3SzpgyjqFy+nO+IA1+cI1l1UTIehF8SJKkTRuSCMkx5RvHX8IqzcwOTahI/OalCLO8w2QygsaAhVKkT/8sXggZoTKaiuOy6n4gLNtSroJVkrVnXiKnvE0lrpQRzjpfaLx2hIdGv9YZIfkVlDU9eW2z92ZKMuCNen4YVUI4bgWWv8y7f8riRAwASSEBzt9/9gSuLFIaicSYg9me+oz8VwISIZt+znGOOHi4sHHDDxbFX87sJZMA0Oezp1W6SvU+RdB3IYA8hIbi7nBhXzg2C/LFx+fjtbgnd6rGfmtjk= crafty@crafty-laptop
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCsjFGM8n1GSr6XmOcNd4y/ZoutH8sfVHg/6VEhJcOp/D7kxNco43YdLbIRzwvsDGYr/ZVxPg1ESCnVHtJlLTip9fntiMzZPlfJVV09uha9di3vXTLg2XSnQRfNeAg1lVGSkLHPD5d7zJb6kOCIJEXwc+MqdxljeFFTwrUCEJsKMD+THAZhZH6STmvA8QJwK9egiYDzvSuc51HhYM1OgS9eSiK5ta5Qu2rhr3XO0EbTuik63HdqYVsKlZjNeLMLT+/sL2UKFOYCOdSoLpsbned2LS9HmhKqXUJw6aLWDZgOgQjddWgoWVF2XDBrhKsHBHCfyVGsvMhGZ/2O1pU8Mn74OxTBZqI59CXh5stqxMb5PesXdmrM6XkFq5TS1snVSn9CCjQ9n3DEgiFZGZYDhBmzqijaVSFLa6Hk8NiqzciS8gfccnDgM7QBq/Jbh0PWlMVu/rwrVedYbJrFtJzJoLEUPwwYRMk7g00SjzDlE46TlU8nxQ/e7GIRutFqCPGzlj0= crafty@crafty-end
 packages:
   - docker
   - docker-compose
@@ -20,9 +20,10 @@ packages:
 runcmd:
   - sudo su terraform
   - cd /home/terraform
-  - mkdir -p ~/.docker/cli-plugins/
-  - curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
-  - chmod +x ~/.docker/cli-plugins/docker-compose
   - git clone https://github.com/Crafty-Codes/elastic.git elastic
+  - chown terraform:terraform elastic/
   - cd elastic
-  - docker compose up -d
+  - curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o ./docker-compose
+  - chmod +x ./docker-compose
+  - until docker ps | grep -i -q "container id"; do sleep 5; done;
+  - ./docker-compose up
